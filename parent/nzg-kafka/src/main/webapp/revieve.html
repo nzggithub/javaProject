@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="application/javascript" src="stomp.min.js"></script>
+    <script>
+        if (location.search) {
+            // 初始化 ws 对象
+            var host ="ws://192.168.0.81:15674/ws";
+            var ws = new WebSocket(host);
+        } else {
+            var host ="http://192.168.0.81:15674/stomp";
+            var ws = new SockJS(host);
+        }
+
+        // 获得Stomp client对象
+        var client = Stomp.over(ws);
+
+        // SockJS does not support heart-beat: disable heart-beats
+        client.heartbeat.outgoing = 0;
+        client.heartbeat.incoming = 0;
+        // client.debug = pipe('#second');
+
+        // 定义连接成功回调函数
+        var on_connect = function(x) {
+            //data.body是接收到的数据
+            client.subscribe("/queue/testStomp", function(data) {
+                var msg = data.body;
+                console.log("收到数据：" + msg);
+            });
+        };
+
+        // 定义错误时回调函数
+        var on_error =  function() {
+            console.log('error');
+        };
+
+        // 连接RabbitMQ
+        client.connect('admin', 'admin', on_connect, on_error, '/');
+        console.log(">>>连接上"+host);
+    </script>
+</head>
+<body>
+
+</body>
+</html>

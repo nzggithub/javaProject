@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>RabbitMQ Web MQTT Examples</title>
+    <script src="mqttws31.js" type="text/javascript"></script>
+    <script>
+        var wsbroker = "192.168.0.82";  // mqtt websocket enabled broker
+        var wsport = 15675; // port for above
+        var userId = "user1";
+        var client = new Paho.MQTT.Client(wsbroker, wsport, "/ws",
+            userId);
+        client.onConnectionLost = function (responseObject) {
+            console.log("CONNECTION LOST - " + responseObject.errorMessage);
+        };
+        client.onMessageArrived = function (message) {
+            console.log("RECEIVE ON " + message.destinationName + " PAYLOAD " + message.payloadString);
+            console.log(message.payloadString);
+        };
+        var options = {
+            timeout: 3,
+            onSuccess: function () {
+                console.log("CONNECTION SUCCESS");
+                client.subscribe('topic/mqtt/test/#', {qos: 1});
+            },
+            onFailure: function (message) {
+                console.log("CONNECTION FAILURE - " + message.errorMessage);
+            },
+            cleanSession:false,//使用non-auto-delete队列,防止退出客户端后,队列自动删除
+            userName:"admin",
+            password:"admin"
+        };
+        if (location.protocol == "https:") {
+            options.useSSL = true;
+        }
+        console.log("CONNECT TO " + wsbroker + ":" + wsport);
+        client.connect(options);
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>
