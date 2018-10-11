@@ -2,8 +2,6 @@ package com.ningzhengao.jvm.classLoader;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,6 +25,7 @@ public class MyClassLoader extends ClassLoader {
 
     public static void main(String[] args) {
         try {
+            System.out.println(Thread.currentThread().getContextClassLoader().getResource("./com/ningzhengao/jvm/classLoader/MyTestClass.class"));
             MyClassLoader classLoader = new MyClassLoader();
             Class<?>c = classLoader.findClass("MyTestClass");
             //获取实例
