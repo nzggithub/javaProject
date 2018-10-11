@@ -1,3 +1,5 @@
+package com.ningzhengao.rabbitmq;
+
 import com.rabbitmq.client.*;
 
 import java.io.IOException;

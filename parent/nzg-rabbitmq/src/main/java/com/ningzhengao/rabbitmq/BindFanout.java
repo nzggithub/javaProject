@@ -1,3 +1,5 @@
+package com.ningzhengao.rabbitmq;
+
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -11,10 +13,10 @@ import java.util.concurrent.TimeoutException;
 /**
  * @author 宁震高
  * @version 0.1
- * @time 2018/5/3
+ * @time 2018/4/28
  * @since 0.1
  */
-public class DeleteQueue {
+public class BindFanout {
     public static void main(String[] args) {
         bindFanout();
     }
@@ -30,9 +32,18 @@ public class DeleteQueue {
         try {
             conn = factory.newConnection();
             channel = conn.createChannel();
-            for(int i =0 ;i<100;i++){
-                String QUEUE_NAME="test"+i+"";
-                channel.queueDelete(QUEUE_NAME);
+
+            String EXCHANGE_NAME = "amq.fanout";
+//            channel.exchangeDelete("fanout",false);
+            channel.exchangeDeclare(EXCHANGE_NAME, "fanout",true,false,null);
+            Map<String, Object> map = new HashMap<>();
+            map.put("x-expires",86400000L);
+            for(int i =0 ;i<10000;i++){
+                String QUEUE_NAME="mqtt-subscription-test"+i+"qos1";
+
+                channel.queueDeclare(QUEUE_NAME, true, false, false,map );
+                // 绑定队列到交换机
+                channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "");
             }
         }catch (Exception e){
             e.printStackTrace();

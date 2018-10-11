@@ -1,24 +1,21 @@
+package com.ningzhengao.rabbitmq;
+
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 /**
  * @author 宁震高
  * @version 0.1
- * @time 2018/4/28
+ * @time 2018/5/7
  * @since 0.1
  */
-public class TestBindFanout {
+public class TestProduct {
     public static void main(String[] args) {
-        bindFanout();
-    }
-    public static void bindFanout() {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setUsername("admin");
         factory.setPassword("admin");
@@ -30,23 +27,13 @@ public class TestBindFanout {
         try {
             conn = factory.newConnection();
             channel = conn.createChannel();
-
-            String EXCHANGE_NAME = "testExchange";
-//            channel.exchangeDelete("fanout",false);
-            channel.exchangeDeclare(EXCHANGE_NAME, "fanout",true,false,null);
-            Map<String, Object> map = new HashMap<>();
-            map.put("x-expires",86400000L);
-            for(int i =700 ;i<750;i++){
-                String QUEUE_NAME="mqtt-subscription-test"+i+"qos1";
-                channel.queueDeclare(QUEUE_NAME, true, false, false,map );
-                // 绑定队列到交换机
-                channel.queueUnbind(QUEUE_NAME, EXCHANGE_NAME, "");
-//                channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "");
-            }
-        }catch (Exception e){
+            byte[] messageBodyBytes = new byte[1024];
+            channel.queueDeclare("test", true, false, false, null);
+            channel.basicPublish("","test",null,messageBodyBytes);
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println(new Date());
-        }finally {
+        } finally {
             try {
                 if (channel != null) {
                     channel.close();

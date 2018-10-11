@@ -1,10 +1,10 @@
+package com.ningzhengao.rabbitmq;
+
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,11 +16,10 @@ import java.util.concurrent.TimeoutException;
  * @time 2018/4/28
  * @since 0.1
  */
-public class BindDirect {
+public class TestBindFanout {
     public static void main(String[] args) {
-//        bindFanout();
+        bindFanout();
     }
-
     public static void bindFanout() {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setUsername("admin");
@@ -34,16 +33,17 @@ public class BindDirect {
             conn = factory.newConnection();
             channel = conn.createChannel();
 
+            String EXCHANGE_NAME = "testExchange";
 //            channel.exchangeDelete("fanout",false);
-            String EXCHANGE_NAME = "amq.direct" ;
-            for(int i =0 ;i<10000;i++){
-//            channel.exchangeDeclare(EXCHANGE_NAME, "direct",true,false,null);
-                Map<String, Object> map = new HashMap<>();
-                map.put("x-expires",86400000L);
+            channel.exchangeDeclare(EXCHANGE_NAME, "fanout",true,false,null);
+            Map<String, Object> map = new HashMap<>();
+            map.put("x-expires",86400000L);
+            for(int i =700 ;i<750;i++){
                 String QUEUE_NAME="mqtt-subscription-test"+i+"qos1";
                 channel.queueDeclare(QUEUE_NAME, true, false, false,map );
                 // 绑定队列到交换机
-                channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, QUEUE_NAME);
+                channel.queueUnbind(QUEUE_NAME, EXCHANGE_NAME, "");
+//                channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "");
             }
         }catch (Exception e){
             e.printStackTrace();

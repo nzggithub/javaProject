@@ -14,6 +14,8 @@
         <module>nzg-zookeeper</module>
         <module>nzg-rabbitmq</module>
         <module>nzg-util</module>
+        <module>nzg-spring</module>
+        <module>nzg-jvm</module>
     </modules>
 
 

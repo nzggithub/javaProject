@@ -1,3 +1,5 @@
+package com.ningzhengao.rabbitmq;
+
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -11,7 +13,7 @@ import java.util.Date;
  * @time 2018/4/20
  * @since 0.1
  */
-public class TestFanoutProduct {
+public class FanoutProduct {
     public static void main(String[] args) {
         try {
 //            recieveMqtt();
@@ -33,7 +35,7 @@ public class TestFanoutProduct {
         factory.setUsername("admin");
         factory.setPassword("admin");
          factory.setVirtualHost("/");
-        factory.setHost("192.168.0.81");
+        factory.setHost("192.168.0.82");
         factory.setPort(5672);
         Connection conn = null;
         Channel channel = null;
@@ -43,15 +45,16 @@ public class TestFanoutProduct {
 
 //            byte[] messageBodyBytes = "{'text':'Hello, world!中文'}".getBytes("utf-8");
             byte[] messageBodyBytes=new byte[1024];
-            int count = 100;
+            int count = 1000;
 //            channel.exchangeDeclare("amq.topic","topic",true,false,null);
             System.out.println(new Date());
-//            MessageProperties.PERSISTENT_TEXT_PLAIN;
             for(int i = 0;i <count;i++){
                 long l = System.currentTimeMillis();
-                for(int m =0;m<300;m++){
-                    channel.basicPublish("testExchange", "", MessageProperties.PERSISTENT_TEXT_PLAIN, messageBodyBytes);
-                }
+                channel.basicPublish("amq.fanout", "", MessageProperties.PERSISTENT_TEXT_PLAIN, messageBodyBytes);
+//                channel.basicPublish("amq.fanout", "", null, messageBodyBytes);
+//                channel.basicPublish("amq.fanout", "", null, messageBodyBytes);
+//                channel.basicPublish("amq.fanout", "", null, messageBodyBytes);
+//                channel.basicPublish("amq.fanout", "", null, messageBodyBytes);
                 l = System.currentTimeMillis() - l;
                 System.out.println(i+" " +l);
                 long t = 1000 -l;
