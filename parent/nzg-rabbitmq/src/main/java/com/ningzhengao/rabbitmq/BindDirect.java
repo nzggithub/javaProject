@@ -20,7 +20,7 @@ import java.util.concurrent.TimeoutException;
  */
 public class BindDirect {
     public static void main(String[] args) {
-//        bindFanout();
+        bindFanout();
     }
 
     public static void bindFanout() {
@@ -28,7 +28,7 @@ public class BindDirect {
         factory.setUsername("admin");
         factory.setPassword("admin");
         factory.setVirtualHost("/");
-        factory.setHost("192.168.0.81");
+        factory.setHost("127.0.0.1");
         factory.setPort(5672);
         Connection conn = null;
         Channel channel = null;
@@ -38,7 +38,8 @@ public class BindDirect {
 
 //            channel.exchangeDelete("fanout",false);
             String EXCHANGE_NAME = "amq.direct" ;
-            for(int i =0 ;i<10000;i++){
+            for(int i =0 ;i<100;i++){
+                Thread.sleep(10000000);
 //            channel.exchangeDeclare(EXCHANGE_NAME, "direct",true,false,null);
                 Map<String, Object> map = new HashMap<>();
                 map.put("x-expires",86400000L);
