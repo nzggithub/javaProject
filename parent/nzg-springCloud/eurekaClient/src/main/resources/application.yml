@@ -1,0 +1,15 @@
+server:
+  port: 6702
+
+spring:
+  application:
+#    name: ERIC-NFVO-EOCA-SECURITY
+    name: ERIC-NFVO-EOCA-RESOURCE
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://172.16.23.197:9010/eureka/
+#      defaultZone: http://localhost:19000/eureka/
