@@ -17,7 +17,7 @@
         <module>nzg-spring</module>
         <module>nzg-jvm</module>
         <module>nzgweb</module>
-        <module>nzg-springCloud</module>
+        <module>nzg-socket</module>
     </modules>
     <dependencyManagement>
         <dependencies>

@@ -1,6 +1,8 @@
 package client;
 
 import com.alibaba.fastjson.JSONObject;
+import com.netflix.discovery.EurekaClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -33,7 +35,8 @@ public class Client {
 
 //    @Value("${server.port}")
 //    String port;
-
+@Autowired
+private EurekaClient eurekaClient;
     @RequestMapping("/eoca/v1.0/cagw/vims/lists")
     public String home(@RequestBody String str, @RequestHeader("X-Auth-Token") String encoding) {
         System.out.println(1);

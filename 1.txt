@@ -1,1 +1,22 @@
-1
+  int(11)               private Integer incre_col                ;
+  char(3)               private String statistical_pv_flag      ;
+  datetime               private Date statistical_time         ;
+  char(1)               private String statistical_active_status;
+  varchar(32)               private String vendor_id                ;
+  varchar(32)               private String eqp_object_class         ;
+  varchar(32)               private String object_class             ;
+  varchar(32)               private String org_severity             ;
+  varchar(64)               private String ems_id                   ;
+  varchar(128               private String vim_id                   ;
+  varchar(128               private String pim_id                   ;
+  int(11)               private int statistic                ;
+  char(1)               private String is_back_tracking         ;
+  datetime               private Date back_tracking_time       ;
+  timestamp               private Date update_time              ;
+  varchar(64)               private String update_user              ;
+  timestamp               private Date create_time              ;
+  varchar(64)               private String create_user              ;
+  char(1)               private String state                    ;
+
+
+:statistical_pv_flag, :statistical_time, :statistical_active_status, :vendor_id, :eqp_object_class, :object_class, :org_severity, :ems_id, :vim_id, :pim_id, :statistic, :is_back_tracking, :back_tracking_time, :update_user, :create_user, :state

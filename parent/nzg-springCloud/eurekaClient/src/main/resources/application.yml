@@ -1,15 +1,16 @@
 server:
-  port: 6702
+  port: 12346
 
 spring:
   application:
-#    name: ERIC-NFVO-EOCA-SECURITY
-    name: ERIC-NFVO-EOCA-RESOURCE
+    name: ERIC-NFVO-EOCA-SECURITY
+#    name: ERIC-NFVO-EOCA-RESOURCE
 
 eureka:
   instance:
     prefer-ip-address: true
+    preferIpAddress: true
   client:
     serviceUrl:
-      defaultZone: http://172.16.23.197:9010/eureka/
-#      defaultZone: http://localhost:19000/eureka/
+#      defaultZone: http://172.16.23.197:9010/eureka/
+      defaultZone: http://localhost:18761/eureka/
